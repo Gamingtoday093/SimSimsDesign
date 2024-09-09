@@ -1,4 +1,5 @@
 @startuml
+left to right direction
 
 /' Resources '/
 
@@ -21,50 +22,97 @@ class Product {
     
 }
 
-Resource <- Worker
-Resource <- Food
-Resource <- Product
-
-/' Transition Tunnel '/
-
-class TransitionTunnel {
-    
-}
+Resource <-- Worker
+Resource <-- Food
+Resource <-- Product
 
 /' Locations '/    
 
 class Location {
-
+    + add_resource(resource: Resource): void
+    + take_resource(): Resource | None
 }
 
 class Barack {
-    - __workers: queue
+    - __workers: queue<Worker>
 }
 
 class Barn {
-    - __foods: queue
+    - __foods: queue<Food>
 }
 
 class Storage {
-    - __products: stack
+    - __products: stack<Product>
 }
 
-Location <- Barack
-Location <- Barn
-Location <- Storage
+Location <-- Barack
+Location <-- Barn
+Location <-- Storage
 
 /' Transitions '/
 
+class Transition {
+    + transition(): void
+    + needs_resources(): bool
+    + get_resources(): void
+}
+
 class Factory {
-    
+    - __channel_workers_in: Channel
+    - __channel_workers_out: Channel
+    - __channel_products_out: Channel
+
+    - __workers: queue<Worker>
+    - __risk: int
+    + <<get, set>> risk: int
 }
 
 class FarmField {
+    - __channel_workers_in: Channel
+    - __channel_workers_out: Channel
+    - __channel_foods_out: Channel
 
+    - __workers: queue<Worker>
 }
 
 class FoodCourt {
+    - __channel_workers_in: Channel
+    - __channel_foods_in: Channel
+    - __channel_workers_out: Channel
 
+    - __workers: queue<Worker>
+    - __foods: queue<Food>
 }
+
+class Home {
+    - __channel_workers_in: Channel
+    - __channel_products_in: Channel
+    - __channel_workers_out: Channel
+
+    - __workers: queue<Worker>
+    - __products: queue<Product>
+
+    - __reproduce: bool
+    + set_reproduce(): void
+}
+
+Transition <- Factory
+Transition <- FarmField
+Transition <- FoodCourt
+Transition <- Home
+
+/' Channel '/
+
+class Channel {
+    - __location: Location
+    + <<get>> location: Location
+}
+
+Location o-- Channel
+
+Factory *-- Channel
+FarmField *-- Channel
+FoodCourt *-- Channel
+Home *-- Channel
 
 @enduml
