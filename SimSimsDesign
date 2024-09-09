@@ -1,3 +1,70 @@
 @startuml
 
+/' Resources '/
+
+class Resource {
+    
+}
+
+class Worker {
+    - __health: int
+    + <<get, set>> health: int
+    + is_dead(): bool
+}
+
+class Food {
+    - __quality: int
+    + <<get, set>> quality: int
+}
+
+class Product {
+    
+}
+
+Resource <- Worker
+Resource <- Food
+Resource <- Product
+
+/' Transition Tunnel '/
+
+class TransitionTunnel {
+    
+}
+
+/' Locations '/    
+
+class Location {
+
+}
+
+class Barack {
+    - __workers: queue
+}
+
+class Barn {
+    - __foods: queue
+}
+
+class Storage {
+    - __products: stack
+}
+
+Location <- Barack
+Location <- Barn
+Location <- Storage
+
+/' Transitions '/
+
+class Factory {
+    
+}
+
+class FarmField {
+
+}
+
+class FoodCourt {
+
+}
+
 @enduml
