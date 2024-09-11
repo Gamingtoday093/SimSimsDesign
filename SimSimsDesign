@@ -53,7 +53,7 @@ Location <-- Storage
 
 class Transition {
     + transition(): void
-    + needs_resources(): bool
+    + has_resources(): bool
     + get_resources(): void
 }
 
@@ -93,7 +93,7 @@ class Home {
     - __products: queue<Product>
 
     - __reproduce: bool
-    + set_reproduce(): void
+    + update_reproduce(): void
 }
 
 Transition <- Factory
@@ -114,5 +114,17 @@ Factory *-- Channel
 FarmField *-- Channel
 FoodCourt *-- Channel
 Home *-- Channel
+
+Location *-- Resource
+Barack *-- Worker
+Barn *-- Food
+Storage *-- Product
+
+Factory *-- Worker
+FarmField *-- Worker
+FoodCourt *-- Worker
+FoodCourt *-- Food
+Home *-- Worker
+Home *-- Product
 
 @enduml
