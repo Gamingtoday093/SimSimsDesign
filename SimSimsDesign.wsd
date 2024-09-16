@@ -1,11 +1,7 @@
-@startuml
+@startuml SimSimsDesign
 left to right direction
 
 /' Resources '/
-
-class Resource {
-    
-}
 
 class Worker {
     - __health: int
@@ -22,32 +18,28 @@ class Product {
     
 }
 
-Resource <-- Worker
-Resource <-- Food
-Resource <-- Product
-
 /' Locations '/    
-
-class Location {
-    + add_resource(resource: Resource): void
-    + take_resource(): Resource | None
-}
 
 class Barack {
     - __workers: queue<Worker>
+
+    + add_worker(worker: Worker): void
+    + take_worker(): Worker | None
 }
 
 class Barn {
     - __foods: queue<Food>
+
+    + add_food(food: Food): void
+    + take_food(): Food | None
 }
 
 class Storage {
     - __products: stack<Product>
-}
 
-Location <-- Barack
-Location <-- Barn
-Location <-- Storage
+    + add_product(product: Product): void
+    + take_product(): Product | None
+}
 
 /' Transitions '/
 
@@ -58,9 +50,9 @@ class Transition {
 }
 
 class Factory {
-    - __channel_workers_in: Channel
-    - __channel_workers_out: Channel
-    - __channel_products_out: Channel
+    - __channel_workers_in: Barack
+    - __channel_workers_out: Barack
+    - __channel_products_out: Storage
 
     - __workers: queue<Worker>
     - __risk: int
@@ -68,26 +60,26 @@ class Factory {
 }
 
 class FarmField {
-    - __channel_workers_in: Channel
-    - __channel_workers_out: Channel
-    - __channel_foods_out: Channel
+    - __channel_workers_in: Barack
+    - __channel_workers_out: Barack
+    - __channel_foods_out: Barn
 
     - __workers: queue<Worker>
 }
 
 class FoodCourt {
-    - __channel_workers_in: Channel
-    - __channel_foods_in: Channel
-    - __channel_workers_out: Channel
+    - __channel_workers_in: Barack
+    - __channel_foods_in: Barn
+    - __channel_workers_out: Barack
 
     - __workers: queue<Worker>
     - __foods: queue<Food>
 }
 
 class Home {
-    - __channel_workers_in: Channel
-    - __channel_products_in: Channel
-    - __channel_workers_out: Channel
+    - __channel_workers_in: Barack
+    - __channel_products_in: Storage
+    - __channel_workers_out: Barack
 
     - __workers: queue<Worker>
     - __products: queue<Product>
@@ -101,21 +93,15 @@ Transition <- FarmField
 Transition <- FoodCourt
 Transition <- Home
 
-/' Channel '/
+Factory *-- Barack
+Factory *-- Storage
+FarmField *-- Barack
+FarmField *-- Barn
+FoodCourt *-- Barack
+FoodCourt *-- Barn
+Home *-- Barack
+Home *-- Storage
 
-class Channel {
-    - __location: Location
-    + <<get>> location: Location
-}
-
-Location o-- Channel
-
-Factory *-- Channel
-FarmField *-- Channel
-FoodCourt *-- Channel
-Home *-- Channel
-
-Location *-- Resource
 Barack *-- Worker
 Barn *-- Food
 Storage *-- Product
