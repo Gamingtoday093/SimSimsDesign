@@ -1,0 +1,60 @@
+@startuml Scenarios
+
+participant Simulation
+participant Barack1 as Barack1
+participant Barack2 as Barack2
+participant Worker1 as Worker1
+
+activate Simulation
+
+== Scenario 1 ==
+
+create Barack1
+Simulation -> Barack1: <<create>>
+
+create Barack2
+Simulation -> Barack2: <<create>>
+
+create Worker1
+Simulation -> Worker1: <<create>>
+
+Simulation -> Barack1: add_worker(Worker1)
+activate Barack1
+
+deactivate Barack1
+
+== Scenario 2/3 ==
+
+participant Storage1 as Storage1
+participant Factory1 as Factory1
+participant Product1 as Product1
+
+create Storage1
+Simulation -> Storage1: <<create>>
+
+create Factory1
+Simulation -> Factory1: <<create> [Barack1, Storage1, Barack1, Risk]>
+
+Simulation -> Factory1: transition()
+activate Factory1
+
+Factory1 -> Barack1: take_worker()
+activate Barack1
+
+Barack1 -> Factory1
+deactivate Barack1
+
+create Product1
+Factory1 -> Product1: <<create>>
+
+Factory1 -> Storage1: add_product(Product1)
+activate Storage1
+deactivate Storage1
+
+Factory1 -> Barack1: add_worker(Worker1)
+activate Barack1
+deactivate Barack1
+
+deactivate Factory1
+
+@enduml
