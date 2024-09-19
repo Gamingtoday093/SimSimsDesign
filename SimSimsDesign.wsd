@@ -5,7 +5,8 @@ left to right direction
 
 class Worker {
     - __health: int
-    + <<get, set>> health: int
+    + <<get>> health: int
+    + set_health_delta(delta_health: int): void
     + is_dead(): bool
 }
 
@@ -23,22 +24,22 @@ class Product {
 class Barack {
     - __workers: queue<Worker>
 
-    + add_worker(worker: Worker): void
-    + take_worker(): Worker | None
+    + add(worker: Worker): void
+    + take(): Worker | None
 }
 
 class Barn {
     - __foods: queue<Food>
 
-    + add_food(food: Food): void
-    + take_food(): Food | None
+    + add(food: Food): void
+    + take(): Food | None
 }
 
 class Storage {
     - __products: stack<Product>
 
-    + add_product(product: Product): void
-    + take_product(): Product | None
+    + add(product: Product): void
+    + take(): Product | None
 }
 
 /' Transitions '/
@@ -80,7 +81,6 @@ class Home {
     - __channel_workers_out: Barack
 
     - __reproduce: bool
-    + update_reproduce(): void
 
     + transition(): bool
 }
@@ -90,17 +90,17 @@ Transition <- FarmField
 Transition <- FoodCourt
 Transition <- Home
 
-Factory *-- Barack
-Factory *-- Storage
-FarmField *-- Barack
-FarmField *-- Barn
-FoodCourt *-- Barack
-FoodCourt *-- Barn
-Home *-- Barack
-Home *-- Storage
+Factory o-- Barack
+Factory o-- Storage
+FarmField o-- Barack
+FarmField o-- Barn
+FoodCourt o-- Barack
+FoodCourt o-- Barn
+Home o-- Barack
+Home o-- Storage
 
-Barack *-- Worker
-Barn *-- Food
-Storage *-- Product
+Barack o-- Worker
+Barn o-- Food
+Storage o-- Product
 
 @enduml

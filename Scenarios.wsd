@@ -18,7 +18,7 @@ Simulation -> Barack2: <<create>>
 create Worker1
 Simulation -> Worker1: <<create>>
 
-Simulation -> Barack1: add_worker(Worker1)
+Simulation -> Barack1: add(Worker1)
 activate Barack1
 
 deactivate Barack1
@@ -38,7 +38,7 @@ Simulation -> Factory1: <<create> [Barack1, Storage1, Barack1, Risk]>
 Simulation -> Factory1: transition()
 activate Factory1
 
-Factory1 -> Barack1: take_worker()
+Factory1 -> Barack1: take()
 activate Barack1
 
 Barack1 -> Factory1
@@ -47,11 +47,11 @@ deactivate Barack1
 create Product1
 Factory1 -> Product1: <<create>>
 
-Factory1 -> Storage1: add_product(Product1)
+Factory1 -> Storage1: add(Product1)
 activate Storage1
 deactivate Storage1
 
-Factory1 -> Barack1: add_worker(Worker1)
+Factory1 -> Barack1: add(Worker1)
 activate Barack1
 deactivate Barack1
 
