@@ -54,18 +54,24 @@ class Factory {
 
     - __risk: int
     + <<get, set>> risk: int
+
+    + transition(): bool
 }
 
 class FarmField {
     - __channel_workers_in: Barack
     - __channel_workers_out: Barack
     - __channel_foods_out: Barn
+
+    + transition(): bool
 }
 
 class FoodCourt {
     - __channel_workers_in: Barack
     - __channel_foods_in: Barn
     - __channel_workers_out: Barack
+
+    + transition(): bool
 }
 
 class Home {
@@ -75,6 +81,8 @@ class Home {
 
     - __reproduce: bool
     + update_reproduce(): void
+
+    + transition(): bool
 }
 
 Transition <- Factory
